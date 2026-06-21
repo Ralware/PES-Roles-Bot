@@ -10,7 +10,7 @@ const roleIdsPath = path.join(dataDirectory, 'roles.json');
 const PANEL_EMBED_TITLE = 'Server Roles Selector';
 const PANEL_MARKER = 'Choose Roles Below : ';
 const SELF_ROLE_CUSTOM_ID_PREFIX = 'selfrole';
-const COOLDOWN_MS = 5000;
+const COOLDOWN_MS = 1000;
 
 function toKey(label) {
   return String(label)

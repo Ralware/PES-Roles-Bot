@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="73bb394c-cb4e-4c26-a497-fd7cf05dd140" name="Changes" comment="Discord Bot Fully Functional In JavaScript">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PES-Roles-Bot.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="021d2f05-9b57-4a41-ba1a-5d620c0b247a" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0122652807249934" />
+      <entry key="MS500" value="1.512799497601196" />
+      <entry key="S2" value="3.113544712662709" />
+      <entry key="S5" value="5.211825287538544" />
+      <entry key="S10" value="6.694297339763398" />
+      <entry key="S30" value="8.119510730496167" />
+      <entry key="S60" value="8.93090048433449" />
+      <entry key="M2" value="11.763179446272547" />
+      <entry key="M5" value="19.083164114248845" />
+      <entry key="M10" value="24.252008600696847" />
+      <entry key="M15" value="26.49463012918497" />
+      <entry key="M30" value="29.06154714967025" />
+      <entry key="H1" value="30.481121200451106" />
+      <entry key="H2" value="31.22772191361118" />
+      <entry key="H4" value="31.6105964890723" />
+      <entry key="D1" value="31.934641289426178" />
+      <entry key="W1" value="31.990651759787468" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9644037241664111" />
+      <entry key="MS500" value="1.4991131012861703" />
+      <entry key="S2" value="3.1064529306642186" />
+      <entry key="S5" value="5.2067806228546605" />
+      <entry key="S10" value="6.690976363759888" />
+      <entry key="S30" value="8.118137499636838" />
+      <entry key="S60" value="8.92989576385983" />
+      <entry key="M2" value="11.761708486652626" />
+      <entry key="M5" value="19.081508863996486" />
+      <entry key="M10" value="24.2507995022438" />
+      <entry key="M15" value="26.49371336445048" />
+      <entry key="M30" value="29.06102531839021" />
+      <entry key="H1" value="30.480842721788072" />
+      <entry key="H2" value="31.22757805342902" />
+      <entry key="H4" value="31.61052337384155" />
+      <entry key="D1" value="31.934628936355566" />
+      <entry key="W1" value="31.990649990934177" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3FSV01w1GdJg4WHR61kM1Rm5etj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.24374.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="73bb394c-cb4e-4c26-a497-fd7cf05dd140" name="Changes" comment="" />
+      <created>1782068231054</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1782068231054</updated>
+      <workItem from="1782068232170" duration="3739000" />
+    </task>
+    <task id="LOCAL-00001" summary="Discord Bot">
+      <option name="closed" value="true" />
+      <created>1782069720825</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1782069720825</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Discord Bot Fully Functional In JavaScript">
+      <option name="closed" value="true" />
+      <created>1782070286401</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1782070286401</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Discord Bot Fully Functional In JavaScript">
+      <option name="closed" value="true" />
+      <created>1782071543147</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1782071543147</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Discord Bot" />
+    <MESSAGE value="Discord Bot Fully Functional In JavaScript" />
+    <option name="LAST_COMMIT_MESSAGE" value="Discord Bot Fully Functional In JavaScript" />
+  </component>
+</project>
