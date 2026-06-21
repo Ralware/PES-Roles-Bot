@@ -1,0 +1,65 @@
+const { Events } = require('discord.js');
+const { SELF_ROLE_CUSTOM_ID_PREFIX } = require('../config');
+const { getRemainingCooldown, startCooldown } = require('../utils/cooldown');
+const { replyWithError } = require('../utils/errorHandler');
+const { assignSelfRole } = require('../services/roleService');
+
+async function handleSlashCommand(interaction) {
+  const command = interaction.client.commands.get(interaction.commandName);
+
+  if (!command) {
+    return interaction.reply({
+      content: '\u274C This command is not available.',
+      ephemeral: true
+    });
+  }
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    await replyWithError(interaction, error, `COMMAND_FAILURE:/${interaction.commandName}`);
+  }
+}
+
+async function handleSelfRoleSelect(interaction) {
+  const [, categoryKey] = interaction.customId.split(':');
+  const selectedRoleKey = interaction.values[0];
+
+  if (getRemainingCooldown(interaction.user.id) > 0) {
+    return interaction.reply({
+      content: 'Please wait a few seconds before changing roles again.',
+      ephemeral: true
+    });
+  }
+
+  startCooldown(interaction.user.id);
+
+  try {
+    const result = await assignSelfRole(interaction, categoryKey, selectedRoleKey);
+
+    return interaction.reply({
+      content: `\u2705 ${result.categoryLabel} updated to ${result.selectedRoleLabel}`,
+      ephemeral: true
+    });
+  } catch (error) {
+    return replyWithError(interaction, error, 'SELF_ROLE_UPDATE_FAILED');
+  }
+}
+
+module.exports = {
+  name: Events.InteractionCreate,
+  async execute(interaction) {
+    if (interaction.isChatInputCommand()) {
+      return handleSlashCommand(interaction);
+    }
+
+    if (
+      interaction.isStringSelectMenu() &&
+      interaction.customId.startsWith(`${SELF_ROLE_CUSTOM_ID_PREFIX}:`)
+    ) {
+      return handleSelfRoleSelect(interaction);
+    }
+
+    return undefined;
+  }
+};

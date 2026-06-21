@@ -1,0 +1,25 @@
+{
+  "name": "pesu-self-role-bot",
+  "version": "1.0.0",
+  "description": "A local Discord.js v14 bot for student self-role assignment using dropdown menus.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "deploy": "node deploy-commands.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "roles",
+    "self-roles"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.26.4",
+    "dotenv": "^16.4.7"
+  },
+  "overrides": {
+    "undici": "6.27.0"
+  }
+}
