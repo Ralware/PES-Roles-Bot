@@ -7,8 +7,8 @@ const dataDirectory = path.join(__dirname, '..', 'data');
 const roleConfigPath = path.join(dataDirectory, 'roleConfig.json');
 const roleIdsPath = path.join(dataDirectory, 'roles.json');
 
-const PANEL_EMBED_TITLE = 'Student Role Selection';
-const PANEL_MARKER = 'self-role-panel:v1';
+const PANEL_EMBED_TITLE = 'Server Roles Selector';
+const PANEL_MARKER = 'Choose Roles Below : ';
 const SELF_ROLE_CUSTOM_ID_PREFIX = 'selfrole';
 const COOLDOWN_MS = 5000;
 

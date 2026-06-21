@@ -42,7 +42,7 @@ function removePanel(guildId) {
 function buildRolePanelPayload() {
   const embed = new EmbedBuilder()
     .setTitle(PANEL_EMBED_TITLE)
-    .setDescription('Use the dropdown menus below to choose your campus, department, and joining year.')
+    .setDescription('Choose Your Campus, Department & Joining Year Honestly :)')
     .setFooter({ text: PANEL_MARKER });
 
   const components = Object.entries(getRoleCategories()).map(([categoryKey, category]) =>
