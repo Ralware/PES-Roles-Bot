@@ -29,7 +29,8 @@ function getRoleKey(categoryKey, label) {
       CSE: 'cse',
       'CSE(AIML)': 'aiml',
       ECE: 'ece',
-      MECH: 'mech'
+      MECH: 'mech',
+      BBA: 'bba'
     }
   };
 

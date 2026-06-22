@@ -4,11 +4,12 @@
     "EC Campus"
   ],
   "departments": [
-    "CSE",
-    "CSE(AIML)",
-    "ECE",
-    "MECH"
-  ],
+  "CSE",
+  "CSE(AIML)",
+  "ECE",
+  "MECH",
+  "BBA"
+],
   "years": [
     2015,
     2016,
