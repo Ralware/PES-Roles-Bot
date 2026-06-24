@@ -30,7 +30,10 @@ function getRoleKey(categoryKey, label) {
       'CSE(AIML)': 'aiml',
       ECE: 'ece',
       MECH: 'mech',
-      BBA: 'bba'
+      BBA: 'bba',
+      PSYCH:'psych',
+      BT:'bt',
+      EEE:'eee'
     }
   };
 
