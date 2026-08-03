@@ -3,6 +3,7 @@ const { SELF_ROLE_CUSTOM_ID_PREFIX } = require('../config');
 const { getRemainingCooldown, startCooldown } = require('../utils/cooldown');
 const { replyWithError } = require('../utils/errorHandler');
 const { assignSelfRole } = require('../services/roleService');
+const { refreshSelectMenus } = require('../services/panelService');
 
 async function handleSlashCommand(interaction) {
   const command = interaction.client.commands.get(interaction.commandName);
@@ -26,6 +27,7 @@ async function handleSelfRoleSelect(interaction) {
   const selectedRoleKey = interaction.values[0];
 
   if (getRemainingCooldown(interaction.user.id) > 0) {
+    await refreshSelectMenus(interaction).catch(console.error);
     return interaction.reply({
       content: 'Please wait a few seconds before changing roles again.',
       ephemeral: true
@@ -34,16 +36,27 @@ async function handleSelfRoleSelect(interaction) {
 
   startCooldown(interaction.user.id);
 
-  try {
-    const result = await assignSelfRole(interaction, categoryKey, selectedRoleKey);
+  let result;
+  let assignmentError;
 
-    return interaction.reply({
-      content: `\u2705 ${result.categoryLabel} updated to ${result.selectedRoleLabel}`,
-      ephemeral: true
-    });
+  try {
+    result = await assignSelfRole(interaction, categoryKey, selectedRoleKey);
   } catch (error) {
-    return replyWithError(interaction, error, 'SELF_ROLE_UPDATE_FAILED');
+    assignmentError = error;
   }
+
+  await refreshSelectMenus(interaction).catch(console.error);
+
+  if (assignmentError) {
+    return replyWithError(interaction, assignmentError, 'SELF_ROLE_UPDATE_FAILED');
+  }
+
+  return interaction.reply({
+    content: result.action === 'removed'
+      ? `\u2796 Removed ${result.selectedRoleLabel} from your roles`
+      : `\u2705 Added ${result.selectedRoleLabel} to your roles`,
+    ephemeral: true
+  });
 }
 
 module.exports = {

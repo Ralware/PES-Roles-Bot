@@ -10,7 +10,7 @@
   "EEE",
   "MECH",
   "BBA",
-  "PSYCH",
+  "BSC",
   "BT"
 ],
   "years": [
@@ -30,5 +30,14 @@
     2028,
     2029,
     2030
-  ]
+  ],
+  "extras": [
+  "Coder",
+  "Gamer",
+  "Musician",
+  "Tech",
+  "Moto",
+  "Investor",
+  "Trader"
+]
 }

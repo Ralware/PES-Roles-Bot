@@ -7,7 +7,7 @@ const dataDirectory = path.join(__dirname, '..', 'data');
 const roleConfigPath = path.join(dataDirectory, 'roleConfig.json');
 const roleIdsPath = path.join(dataDirectory, 'roles.json');
 
-const PANEL_EMBED_TITLE = 'Server Roles Selector';
+const PANEL_EMBED_TITLE = 'Roles Editor Panel';
 const PANEL_MARKER = 'Choose Roles Below : ';
 const SELF_ROLE_CUSTOM_ID_PREFIX = 'selfrole';
 const COOLDOWN_MS = 0;
@@ -31,7 +31,7 @@ function getRoleKey(categoryKey, label) {
       ECE: 'ece',
       MECH: 'mech',
       BBA: 'bba',
-      PSYCH:'psych',
+      BSC:'bsc',
       BT:'bt',
       EEE:'eee'
     }
@@ -43,7 +43,7 @@ function getRoleKey(categoryKey, label) {
 }
 
 function getStoredRoleId(categoryKey, key) {
-  const roleIds = readJson(roleIdsPath, { campuses: {}, departments: {}, years: {} });
+  const roleIds = readJson(roleIdsPath, { campuses: {}, departments: {}, years: {}, extras: {} });
 
   return roleIds[categoryKey]?.[key] || roleIdsFallback[categoryKey]?.[key] || null;
 }
@@ -65,7 +65,8 @@ function getRoleCategories() {
   const roleConfig = readJson(roleConfigPath, {
     campuses: [],
     departments: [],
-    years: []
+    years: [],
+    extras: []
   });
 
   return {
@@ -73,19 +74,29 @@ function getRoleCategories() {
       label: 'Campus',
       placeholder: 'Select Campus',
       dataKey: 'campuses',
+      exclusive: true,
       roles: buildRoleOptions('campuses', roleConfig.campuses)
     },
     department: {
       label: 'Department',
       placeholder: 'Select Department',
       dataKey: 'departments',
+      exclusive: true,
       roles: buildRoleOptions('departments', roleConfig.departments)
     },
     year: {
       label: 'Joining Year',
       placeholder: 'Select Joining Year',
       dataKey: 'years',
+      exclusive: true,
       roles: buildRoleOptions('years', roleConfig.years)
+    },
+    extra: {
+      label: 'Additional Roles',
+      placeholder: 'Select Additional Roles',
+      dataKey: 'extras',
+      exclusive: false,
+      roles: buildRoleOptions('extras', roleConfig.extras)
     }
   };
 }

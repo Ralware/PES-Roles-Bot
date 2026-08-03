@@ -42,7 +42,7 @@ function removePanel(guildId) {
 function buildRolePanelPayload() {
   const embed = new EmbedBuilder()
     .setTitle(PANEL_EMBED_TITLE)
-    .setDescription('Choose Your Campus, Department & Joining Year Honestly :)')
+    .setDescription('Choose Your Campus, Department, Joining Year & Additional Roles')
     .setFooter({ text: PANEL_MARKER });
 
   const components = Object.entries(getRoleCategories()).map(([categoryKey, category]) =>
@@ -60,6 +60,10 @@ function buildRolePanelPayload() {
   );
 
   return { embeds: [embed], components };
+}
+
+async function refreshSelectMenus(interaction) {
+  return interaction.message.edit(buildRolePanelPayload());
 }
 
 async function fetchStoredPanelMessage(client, guildId) {
@@ -157,5 +161,6 @@ module.exports = {
   refreshPanel,
   removePanel,
   repairStalePanels,
+  refreshSelectMenus,
   savePanel
 };

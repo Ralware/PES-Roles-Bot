@@ -7,7 +7,7 @@ const { logEvent } = require('../utils/logger');
 const rolesPath = path.join(__dirname, '..', 'data', 'roles.json');
 
 function getRoleIds() {
-  return readJson(rolesPath, { campuses: {}, departments: {}, years: {} });
+  return readJson(rolesPath, { campuses: {}, departments: {}, years: {}, extras: {} });
 }
 
 function saveRoleIds(roleIds) {
@@ -61,6 +61,61 @@ function assertBotCanManageRole(botMember, role) {
   }
 }
 
+async function getCategoryRoles(guild, category) {
+  const categoryRoles = [];
+
+  for (const option of category.roles) {
+    categoryRoles.push({
+      option,
+      role: await fetchConfiguredRole(guild, option)
+    });
+  }
+
+  return categoryRoles;
+}
+
+function findCurrentRolesInCategory(member, categoryRoles) {
+  return categoryRoles.filter(({ role }) => member.roles.cache.has(role.id));
+}
+
+async function removeCategoryRoles(member, categoryLabel, categoryRoles, interaction) {
+  if (categoryRoles.length === 0) {
+    return;
+  }
+
+  const roles = categoryRoles.map(({ role }) => role);
+  await member.roles.remove(roles, `Self-role ${categoryLabel} update`);
+
+  for (const role of roles) {
+    logEvent(interaction.user.id, 'ROLE_REMOVAL', `Removed ${role.name} (${role.id})`, interaction.guildId);
+  }
+}
+
+async function swapCategoryRole(member, category, selectedRole, currentRoles, interaction) {
+  await removeCategoryRoles(member, category.label, currentRoles, interaction);
+  await member.roles.add(selectedRole, `Self-role ${category.label} update`);
+  logEvent(interaction.user.id, 'ROLE_ASSIGNMENT', `Added ${selectedRole.name} (${selectedRole.id})`, interaction.guildId);
+}
+
+async function toggleSingleSelectionRole(member, botMember, category, selectedRole, interaction) {
+  const categoryRoles = await getCategoryRoles(interaction.guild, category);
+
+  for (const { role } of categoryRoles) {
+    assertBotCanManageRole(botMember, role);
+  }
+
+  const currentRoles = findCurrentRolesInCategory(member, categoryRoles);
+  const selectedRoleIsAssigned = currentRoles.some(({ role }) => role.id === selectedRole.id);
+
+  if (selectedRoleIsAssigned) {
+    await removeCategoryRoles(member, category.label, currentRoles, interaction);
+    return 'removed';
+  }
+
+  await swapCategoryRole(member, category, selectedRole, currentRoles, interaction);
+  return 'added';
+}
+
 async function assignSelfRole(interaction, categoryKey, selectedRoleKey) {
   const { category, roleOption } = getRoleOption(categoryKey, selectedRoleKey);
 
@@ -76,29 +131,25 @@ async function assignSelfRole(interaction, categoryKey, selectedRoleKey) {
 
   assertBotCanManageRole(botMember, selectedRole);
 
-  const categoryRoles = [];
+  if (!category.exclusive && member.roles.cache.has(selectedRole.id)) {
+    await member.roles.remove(selectedRole, `Self-role ${category.label} update`);
+    logEvent(interaction.user.id, 'ROLE_REMOVAL', `Removed ${selectedRole.name} (${selectedRole.id})`, interaction.guildId);
 
-  for (const option of category.roles) {
-    categoryRoles.push({
-      option,
-      role: await fetchConfiguredRole(interaction.guild, option)
-    });
+    return {
+      categoryLabel: category.label,
+      selectedRoleLabel: roleOption.label,
+      action: 'removed'
+    };
   }
 
-  for (const { role } of categoryRoles) {
-    assertBotCanManageRole(botMember, role);
-  }
+  if (category.exclusive) {
+    const action = await toggleSingleSelectionRole(member, botMember, category, selectedRole, interaction);
 
-  const rolesToRemove = categoryRoles
-    .map(({ role }) => role)
-    .filter((role) => role.id !== selectedRole.id && member.roles.cache.has(role.id));
-
-  if (rolesToRemove.length > 0) {
-    await member.roles.remove(rolesToRemove, `Self-role ${category.label} update`);
-
-    for (const role of rolesToRemove) {
-      logEvent(interaction.user.id, 'ROLE_REMOVAL', `Removed ${role.name} (${role.id})`, interaction.guildId);
-    }
+    return {
+      categoryLabel: category.label,
+      selectedRoleLabel: roleOption.label,
+      action
+    };
   }
 
   if (!member.roles.cache.has(selectedRole.id)) {
@@ -108,7 +159,8 @@ async function assignSelfRole(interaction, categoryKey, selectedRoleKey) {
 
   return {
     categoryLabel: category.label,
-    selectedRoleLabel: roleOption.label
+    selectedRoleLabel: roleOption.label,
+    action: 'added'
   };
 }
 
@@ -120,12 +172,14 @@ async function createMissingRoles(guild, userId = 'SYSTEM') {
   const roleConfig = readJson(path.join(__dirname, '..', 'data', 'roleConfig.json'), {
     campuses: [],
     departments: [],
-    years: []
+    years: [],
+    extras: []
   });
   const categories = [
     { dataKey: 'campuses', labels: roleConfig.campuses },
     { dataKey: 'departments', labels: roleConfig.departments },
-    { dataKey: 'years', labels: roleConfig.years.map(String) }
+    { dataKey: 'years', labels: roleConfig.years.map(String) },
+    { dataKey: 'extras', labels: roleConfig.extras }
   ];
 
   for (const category of categories) {
@@ -159,7 +213,12 @@ module.exports = {
   assignSelfRole,
   createMissingRoles,
   fetchConfiguredRole,
+  findCurrentRolesInCategory,
+  getCategoryRoles,
   getRoleIds,
   getRoleOption,
-  saveRoleIds
+  removeCategoryRoles,
+  saveRoleIds,
+  swapCategoryRole,
+  toggleSingleSelectionRole
 };
