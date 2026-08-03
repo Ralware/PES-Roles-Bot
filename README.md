@@ -12,6 +12,7 @@ A production-ready Discord.js v14 self-role bot for a university Discord server.
 - `/health` runtime health check
 - `/backupconfig` and `/restoreconfig`
 - Dynamic role labels from `data/roleConfig.json`
+- Configurable dropdown visibility in `config/index.js`
 - Role IDs stored in `data/roles.json`
 - Panel registry stored in `data/panels.json`
 - JSONL logs in `logs/bot.jsonl`
@@ -71,6 +72,32 @@ data/roles.json
 ```
 
 You can fill IDs manually, or let the bot create/store them automatically.
+
+## Panel Dropdown Visibility
+
+Set dropdown visibility in:
+
+```text
+config/index.js
+```
+
+Update `PANEL_VISIBILITY`, then restart the bot and run `/refreshpanel` to apply
+the change to the existing panel. Every category returned by `getRoleCategories()`
+needs one boolean; categories not set to `true` are hidden.
+
+Example — Campus OFF, Department OFF, Joining Year OFF, Additional Roles ON:
+
+```js
+const PANEL_VISIBILITY = {
+  campus: false,
+  department: false,
+  year: false,
+  extra: true
+};
+```
+
+Disabled dropdowns are removed on refresh. If someone uses an outdated menu
+before it refreshes, the bot rejects the interaction without changing roles.
 
 ## Recommended Setup
 

@@ -1,6 +1,6 @@
 const path = require('node:path');
 const { PermissionFlagsBits } = require('discord.js');
-const { getRoleCategories, getRoleKey } = require('../config');
+const { getRoleCategories } = require('../config');
 const { readJson, writeJson } = require('../utils/jsonStore');
 const { logEvent } = require('../utils/logger');
 
@@ -169,25 +169,13 @@ async function createMissingRoles(guild, userId = 'SYSTEM') {
 
   const roleIds = getRoleIds();
   const created = [];
-  const roleConfig = readJson(path.join(__dirname, '..', 'data', 'roleConfig.json'), {
-    campuses: [],
-    departments: [],
-    years: [],
-    extras: []
-  });
-  const categories = [
-    { dataKey: 'campuses', labels: roleConfig.campuses },
-    { dataKey: 'departments', labels: roleConfig.departments },
-    { dataKey: 'years', labels: roleConfig.years.map(String) },
-    { dataKey: 'extras', labels: roleConfig.extras }
-  ];
+  const categories = Object.values(getRoleCategories());
 
   for (const category of categories) {
     roleIds[category.dataKey] ||= {};
 
-    for (const label of category.labels) {
-      const key = getRoleKey(category.dataKey, label);
-      const storedId = roleIds[category.dataKey][key];
+    for (const option of category.roles) {
+      const storedId = roleIds[category.dataKey][option.key];
       const existingById = storedId ? await guild.roles.fetch(storedId).catch(() => null) : null;
 
       if (existingById) {
@@ -195,11 +183,11 @@ async function createMissingRoles(guild, userId = 'SYSTEM') {
       }
 
       const role = await guild.roles.create({
-        name: String(label),
+        name: option.label,
         reason: 'Self-role bot setup created missing role'
       });
 
-      roleIds[category.dataKey][key] = role.id;
+      roleIds[category.dataKey][option.key] = role.id;
       created.push(role.name);
       logEvent(userId, 'ROLE_CREATE', `Created ${role.name} (${role.id})`, guild.id);
     }

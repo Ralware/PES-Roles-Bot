@@ -12,6 +12,15 @@ const PANEL_MARKER = 'Choose Roles Below : ';
 const SELF_ROLE_CUSTOM_ID_PREFIX = 'selfrole';
 const COOLDOWN_MS = 0;
 
+// Add one boolean here for every category returned by getRoleCategories().
+// Categories are hidden unless explicitly enabled.
+const PANEL_VISIBILITY = {
+  campus: false,
+  department: false,
+  year: false,
+  extra: true
+};
+
 function toKey(label) {
   return String(label)
     .toLowerCase()
@@ -101,6 +110,16 @@ function getRoleCategories() {
   };
 }
 
+function isPanelCategoryVisible(categoryKey) {
+  return PANEL_VISIBILITY[categoryKey] === true;
+}
+
+function getVisibleRoleCategories() {
+  return Object.fromEntries(
+    Object.entries(getRoleCategories()).filter(([categoryKey]) => isPanelCategoryVisible(categoryKey))
+  );
+}
+
 const ROLE_CATEGORIES = getRoleCategories();
 
 const REQUIRED_ENV_VARS = ['TOKEN', 'CLIENT_ID', 'GUILD_ID'];
@@ -121,12 +140,15 @@ module.exports = {
   COOLDOWN_MS,
   PANEL_EMBED_TITLE,
   PANEL_MARKER,
+  PANEL_VISIBILITY,
   REQUIRED_BOT_PERMISSIONS,
   REQUIRED_ENV_VARS,
   ROLE_CATEGORIES,
   SELF_ROLE_CUSTOM_ID_PREFIX,
   getAllConfiguredRoles,
   getRoleCategories,
+  getVisibleRoleCategories,
   getRoleKey,
+  isPanelCategoryVisible,
   toKey
 };

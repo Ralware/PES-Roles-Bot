@@ -1,5 +1,5 @@
 const { Events } = require('discord.js');
-const { SELF_ROLE_CUSTOM_ID_PREFIX } = require('../config');
+const { isPanelCategoryVisible, SELF_ROLE_CUSTOM_ID_PREFIX } = require('../config');
 const { getRemainingCooldown, startCooldown } = require('../utils/cooldown');
 const { replyWithError } = require('../utils/errorHandler');
 const { assignSelfRole } = require('../services/roleService');
@@ -25,6 +25,16 @@ async function handleSlashCommand(interaction) {
 async function handleSelfRoleSelect(interaction) {
   const [, categoryKey] = interaction.customId.split(':');
   const selectedRoleKey = interaction.values[0];
+
+  // A menu can remain visible briefly after an administrator disables it.
+  // Do not permit role changes from an outdated panel message.
+  if (!isPanelCategoryVisible(categoryKey)) {
+    await refreshSelectMenus(interaction).catch(console.error);
+    return interaction.reply({
+      content: 'This role category is currently unavailable.',
+      ephemeral: true
+    });
+  }
 
   if (getRemainingCooldown(interaction.user.id) > 0) {
     await refreshSelectMenus(interaction).catch(console.error);

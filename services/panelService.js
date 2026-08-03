@@ -7,7 +7,7 @@ const {
 const {
   PANEL_EMBED_TITLE,
   PANEL_MARKER,
-  getRoleCategories,
+  getVisibleRoleCategories,
   SELF_ROLE_CUSTOM_ID_PREFIX
 } = require('../config');
 const { readJson, writeJson } = require('../utils/jsonStore');
@@ -40,12 +40,18 @@ function removePanel(guildId) {
 }
 
 function buildRolePanelPayload() {
+  const visibleCategories = getVisibleRoleCategories();
+  const categoryLabels = Object.values(visibleCategories).map((category) => category.label);
   const embed = new EmbedBuilder()
     .setTitle(PANEL_EMBED_TITLE)
-    .setDescription('Choose Your Campus, Department, Joining Year & Additional Roles')
+    .setDescription(
+      categoryLabels.length > 0
+        ? `Choose your ${categoryLabels.join(', ')}`
+        : 'Role selection is currently unavailable.'
+    )
     .setFooter({ text: PANEL_MARKER });
 
-  const components = Object.entries(getRoleCategories()).map(([categoryKey, category]) =>
+  const components = Object.entries(visibleCategories).map(([categoryKey, category]) =>
     new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId(`${SELF_ROLE_CUSTOM_ID_PREFIX}:${categoryKey}`)
